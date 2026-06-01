@@ -552,6 +552,78 @@
 
   footer strong { color: var(--purple); }
 
+  /* ── PREMIUM IG BUTTON ── */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-5px); }
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: -300px 0; }
+    100% { background-position: 300px 0; }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 12px rgba(173,122,248,0.25), 0 0 24px rgba(173,122,248,0.10); }
+    50%       { box-shadow: 0 0 20px rgba(173,122,248,0.45), 0 0 40px rgba(173,122,248,0.20); }
+  }
+
+  .ig-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--text);
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 12px 28px;
+    border-radius: 999px;
+    border: 1px solid rgba(173,122,248,0.45);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a0f2e 0%, #120a22 50%, #1a0f2e 100%);
+    animation: float 3s ease-in-out infinite, glow-pulse 3s ease-in-out infinite;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .ig-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgba(173,122,248,0.18) 50%,
+      transparent 70%
+    );
+    background-size: 300px 100%;
+    animation: shimmer 2.8s ease-in-out infinite;
+  }
+
+  .ig-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: linear-gradient(135deg, rgba(173,122,248,0.5), transparent, rgba(173,122,248,0.3)) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+
+  .ig-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 0 28px rgba(173,122,248,0.55), 0 0 60px rgba(173,122,248,0.25);
+    animation-play-state: paused;
+  }
+
+  .ig-btn svg { position: relative; z-index: 1; flex-shrink: 0; }
+  .ig-btn span { position: relative; z-index: 1; }
+
   /* ── SCROLL ── */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
@@ -746,11 +818,12 @@
   </div>
 
   <footer>
-    <p style="margin-bottom:16px;color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;">ถ้าเนื้อหานี้มีประโยชน์ และอยากเรียนรู้เพิ่มเติม คลิกด้านล่าง เพื่อติดตามกันไว้นะครับ <span style="font-size:18px;">👇🏻</span></p>
-    <a href="https://www.instagram.com/northh.fx" target="_blank" style="display:inline-flex;align-items:center;gap:8px;color:var(--purple);text-decoration:none;font-family:'DM Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.05em;padding:8px 16px;background:var(--purple-dim);border:1px solid var(--purple-border);border-radius:999px;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
+    <p style="margin-bottom:20px;color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;">ถ้าเนื้อหานี้มีประโยชน์ และอยากเรียนรู้เพิ่มเติม คลิกด้านล่าง เพื่อติดตามกันไว้นะครับ <span style="font-size:18px;">👇🏻</span></p>
+    <a href="https://www.instagram.com/northh.fx" target="_blank" class="ig-btn">
       <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-      northh.fx
+      <span>northh.fx</span>
     </a>
+    <div style="height:32px;"></div>
   </footer>
 
 </div>
