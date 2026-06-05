@@ -1,0 +1,2704 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-Trade Checklist — northh.fx</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple:   #AD7AF8;
+  --pdim:     rgba(173,122,248,0.10);
+  --pborder:  rgba(173,122,248,0.25);
+  --plight:   #C9A3FC;
+  --bg:       #0D0D0D;
+  --surface:  #111111;
+  --raised:   #161616;
+  --border:   rgba(255,255,255,0.07);
+  --text:     #F2EEFF;
+  --muted:    #888888;
+  --subtle:   #4C4470;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', 'Sarabun', sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* ── STICKY TOP BAR ── */
+.top-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 3px;
+  background: rgba(255,255,255,0.05);
+}
+.top-bar-fill {
+  height: 100%;
+  background: var(--purple);
+  width: 0%;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 8px rgba(173,122,248,0.6);
+}
+
+/* Sticky info row */
+.sticky-info {
+  position: fixed;
+  top: 3px; left: 0; right: 0;
+  z-index: 99;
+  background: rgba(13,13,13,0.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transform: translateY(-110%);
+  transition: transform 0.22s ease;
+}
+
+.sticky-info.visible { transform: translateY(0); }
+
+.sticky-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--purple);
+  letter-spacing: 0.06em;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.sticky-steps {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sticky-step-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.3s;
+}
+
+.sticky-step-dot.done { background: var(--purple); }
+
+.sticky-pct-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: 10px;
+}
+
+/* ── COVER ── */
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-glow {
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(173,122,248,0.08) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.brand-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  color: var(--purple);
+  letter-spacing: 0.05em;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.cover-label {
+  font-family: 'DM Mono', 'IBM Plex Sans Thai', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #666666;
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.cover h1 {
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.cover h1 em { font-style: normal; color: var(--text); }
+
+.cover-th {
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 420px;
+  line-height: 1.85;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--purple);
+  color: white;
+  font-family: 'Poppins', 'Noto Sans Thai', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 14px 36px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.18s;
+  box-shadow: 0 0 28px rgba(173,122,248,0.3);
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(173,122,248,0.5);
+}
+
+.cover-meta {
+  display: flex;
+  gap: 20px;
+  margin-top: 32px;
+  position: relative;
+}
+
+.cover-meta-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  color: var(--subtle);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cover-meta-item::before {
+  content: '';
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--subtle);
+}
+
+/* ── ASSESSMENT WRAPPER ── */
+.assessment {
+  display: none;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 20px 20px 60px;
+}
+
+.assessment.active { display: block; }
+
+/* ── QUESTION BLOCK ── */
+.q-block {
+  padding: 40px 0;
+  border-bottom: 1px solid var(--border);
+  animation: fadeSlide 0.3s ease;
+}
+
+.q-block:last-of-type { border-bottom: none; }
+
+@keyframes fadeSlide { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+.q-module-tag {
+  font-family: 'DM Mono', 'IBM Plex Sans Thai', monospace;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--subtle);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.q-module-tag::before {
+  content: '';
+  width: 16px; height: 1px;
+  background: var(--subtle);
+}
+
+.q-text {
+  font-family: 'Noto Sans Thai', 'Poppins', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.q-hint {
+  font-family: 'Sarabun', 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-bottom: 20px;
+  line-height: 1.75;
+}
+
+/* ── CHOICE TILES ── */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.choice-tile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.choice-tile::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 0;
+  background: var(--purple);
+  opacity: 0.06;
+  transition: width 0.2s ease;
+  border-radius: 12px 0 0 12px;
+}
+
+.choice-tile:hover { border-color: rgba(173,122,248,0.3); }
+.choice-tile:hover::before { width: 100%; }
+
+.choice-tile.selected {
+  border-color: var(--purple);
+  background: var(--pdim);
+}
+
+.choice-tile.selected::before { width: 100%; opacity: 0.08; }
+
+.choice-indicator {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  position: relative; z-index: 1;
+}
+
+.choice-tile.selected .choice-indicator {
+  border-color: var(--purple);
+  background: var(--purple);
+}
+
+.choice-tile.selected .choice-indicator::after {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: white;
+}
+
+.choice-label {
+  font-family: 'Sarabun', 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.5;
+  transition: color 0.15s;
+  position: relative; z-index: 1;
+  flex: 1;
+}
+
+.choice-tile.selected .choice-label { color: var(--text); }
+
+/* ── YN TILES ── */
+.yn-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.yn-tile {
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+  font-family: 'DM Sans', 'Sarabun', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.yn-tile:hover { border-color: rgba(173,122,248,0.3); color: var(--text); }
+.yn-tile.yes.selected { border-color: rgba(74,222,128,0.4); background: rgba(74,222,128,0.08); color: #4ade80; }
+.yn-tile.no.selected  { border-color: rgba(248,113,113,0.35); background: rgba(248,113,113,0.08); color: #f87171; }
+
+/* ── OPTIONAL TEXTAREA ── */
+.q-reflection {
+  margin-top: 14px;
+}
+
+.q-reflection-label {
+  font-family: 'Sarabun', sans-serif;
+  font-size: 11.5px;
+  color: #888888;
+  margin-bottom: 6px;
+}
+
+.q-reflection textarea {
+  width: 100%;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: 'Sarabun', sans-serif;
+  font-size: 13px;
+  padding: 12px 16px;
+  resize: vertical;
+  outline: none;
+  min-height: 64px;
+  line-height: 1.7;
+  transition: border-color 0.15s;
+}
+
+.q-reflection textarea:focus { border-color: var(--pborder); }
+.q-reflection textarea::placeholder { color: #333333; font-style: italic; }
+
+/* ── INSIGHT ── */
+.q-insight {
+  display: none;
+  margin-top: 12px;
+  background: var(--pdim);
+  border: 1px solid var(--pborder);
+  border-radius: 10px;
+  padding: 13px 16px;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.q-insight.show { display: flex; }
+
+.q-insight p {
+  font-family: 'Sarabun', 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--plight);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.q-insight p strong { color: var(--text); }
+.q-insight-icon { font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+
+/* ── SUBMIT ── */
+.submit-wrap {
+  padding: 48px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--purple);
+  color: white;
+  font-family: 'Poppins', 'Noto Sans Thai', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 16px 44px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s;
+  box-shadow: 0 0 28px rgba(173,122,248,0.3);
+}
+
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(173,122,248,0.5); }
+
+.submit-note {
+  font-family: 'Sarabun', sans-serif;
+  font-size: 12px;
+  color: var(--subtle);
+}
+
+/* ── DASHBOARD ── */
+.dashboard {
+  display: none;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 60px 20px 80px;
+}
+
+.dashboard.active { display: block; }
+
+/* Score hero */
+.score-hero {
+  text-align: center;
+  padding: 48px 24px;
+  background: var(--surface);
+  border: 1px solid var(--pborder);
+  border-radius: 20px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.score-hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: 50%;
+  transform: translateX(-50%);
+  width: 400px; height: 300px;
+  background: radial-gradient(ellipse, rgba(173,122,248,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.score-ring-wrap {
+  position: relative;
+  width: 150px; height: 150px;
+  margin: 0 auto 20px;
+}
+
+.score-ring-wrap svg { transform: rotate(-90deg); }
+
+.score-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+
+.score-num {
+  font-family: 'Poppins', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+.score-denom {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--subtle);
+  margin-top: 2px;
+}
+
+.tier-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 20px;
+  border-radius: 999px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.tier-desc {
+  font-family: 'Noto Sans Thai', 'Sarabun', sans-serif;
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 380px;
+  margin: 0 auto;
+  line-height: 1.85;
+  position: relative;
+}
+
+/* Module cards */
+.module-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.mod-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px 16px;
+  transition: border-color 0.2s;
+}
+
+.mod-card.clear   { border-color: rgba(74,222,128,0.2); }
+.mod-card.partial { border-color: rgba(240,180,41,0.22); }
+.mod-card.unclear { border-color: rgba(248,113,113,0.18); }
+
+/* Top row: icon + name left, score right */
+.mod-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 8px;
+}
+
+.mod-info { display: flex; align-items: center; gap: 8px; }
+
+.mod-icon {
+  width: 26px; height: 26px;
+  border-radius: 7px;
+  background: var(--raised);
+  border: 1px solid var(--pborder);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.mod-name-wrap { display: flex; flex-direction: column; gap: 1px; }
+
+.mod-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.mod-tier-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Score: smaller, right-aligned */
+.mod-score-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.mod-pct {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.mod-bar-track {
+  height: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.mod-bar { height: 100%; border-radius: 999px; width: 0%; transition: width 1s cubic-bezier(0.4,0,0.2,1) 0.3s; }
+
+.mod-flags { display: flex; flex-direction: column; gap: 6px; }
+
+.mod-flag {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Sarabun', 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.flag-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%; flex-shrink: 0;
+}
+
+/* Actions */
+.actions-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.actions-head {
+  padding: 14px 20px;
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--purple);
+}
+
+.action-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.action-row:last-child { border-bottom: none; }
+
+.action-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.action-body {
+  font-family: 'Sarabun', 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.action-body strong { color: var(--text); }
+
+/* CTA */
+.dash-cta {
+  text-align: center;
+  padding: 40px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin-top: 10px;
+}
+
+.dash-cta-text {
+  font-family: 'Noto Sans Thai', 'Sarabun', sans-serif;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.85;
+  margin: 0;
+}
+
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+@keyframes shimmer { 0%{background-position:-300px 0} 100%{background-position:300px 0} }
+@keyframes glow-pulse { 0%,100%{box-shadow:0 0 12px rgba(173,122,248,.25),0 0 24px rgba(173,122,248,.1)} 50%{box-shadow:0 0 20px rgba(173,122,248,.45),0 0 40px rgba(173,122,248,.2)} }
+
+.ig-btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  color: var(--text); text-decoration: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.08em;
+  padding: 12px 28px; border-radius: 999px;
+  border: 1px solid rgba(173,122,248,0.45);
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #1a0f2e 0%, #120a22 50%, #1a0f2e 100%);
+  animation: float 3s ease-in-out infinite, glow-pulse 3s ease-in-out infinite;
+  cursor: pointer;
+}
+
+.ig-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(173,122,248,0.18) 50%, transparent 70%);
+  background-size: 300px 100%;
+  animation: shimmer 2.8s ease-in-out infinite;
+}
+
+.ig-btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 0 32px rgba(173,122,248,.65), 0 0 70px rgba(173,122,248,.3); border-color: rgba(173,122,248,0.8); animation-play-state: paused; }
+.ig-btn:active { transform: translateY(-1px) scale(0.98); }
+.ig-btn svg, .ig-btn span { position: relative; z-index: 1; }
+
+.mantra {
+  display: flex; gap: 18px; flex-wrap: wrap; justify-content: center;
+}
+
+.mantra span {
+  font-family: 'DM Mono', monospace; font-size: 9.5px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--purple); opacity: 0.6;
+  display: flex; align-items: center; gap: 7px;
+}
+
+.mantra span::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--purple); }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(173,122,248,0.2); border-radius: 3px; }
+
+/* ── MODULE HEADER ── */
+.module-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 44px 0 16px;
+}
+
+.module-header-num {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  background: var(--purple);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px; font-weight: 700;
+  color: #000;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.module-header-info { display: flex; flex-direction: column; gap: 2px; }
+
+.module-header-title {
+  font-family: 'Poppins', 'Noto Sans Thai', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.module-header-sub {
+  font-family: 'Noto Sans Thai', 'Sarabun', sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #888888;
+  line-height: 1.5;
+}
+
+.module-divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(173,122,248,0.35) 0%, transparent 60%);
+  margin-bottom: 6px;
+}
+
+
+/* ── COLLAPSIBLE EXTRA ACTIONS ── */
+.extra-actions {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.35s ease;
+}
+
+.extra-actions.open {
+  max-height: 800px;
+}
+
+.show-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Sarabun', 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color 0.15s;
+  border-top: 1px solid var(--border);
+}
+
+.show-more-btn:hover { color: var(--text); }
+
+.show-more-btn svg {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.show-more-btn.open svg {
+  transform: rotate(180deg);
+}
+
+
+/* ── SAVE BUTTONS ── */
+.save-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.save-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 12px;
+  border: 1px solid var(--pborder);
+  background: var(--pdim);
+  color: var(--purple);
+  font-family: 'Sarabun', 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.save-btn:hover {
+  background: var(--purple-mid);
+  border-color: var(--purple);
+}
+
+.save-btn:active {
+  transform: scale(0.98);
+}
+
+.save-btn.loading {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+
+/* ── SAVE BUTTONS ── */
+.save-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.save-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 12px;
+  border: 1px solid var(--pborder);
+  background: var(--pdim);
+  color: var(--purple);
+  font-family: 'Sarabun', 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.save-btn:hover {
+  background: var(--purple-mid);
+  border-color: var(--purple);
+}
+
+.save-btn:active {
+  transform: scale(0.98);
+}
+
+.save-btn.loading {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+
+/* ── EXPORT CARD ── */
+#export-card {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  width: 460px;
+  background: #0D0D0D;
+  font-family: 'Poppins', 'Noto Sans Thai', sans-serif;
+}
+
+.ec-wrap {
+  width: 460px;
+  background: linear-gradient(160deg, #111111 0%, #0D0D0D 100%);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top accent line */
+.ec-top-line {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #AD7AF8, transparent);
+}
+
+/* Glow */
+.ec-glow {
+  position: absolute;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(173,122,248,0.08) 0%, transparent 65%);
+  top: -60px; left: 50%; transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.ec-inner { padding: 28px 28px 24px; }
+
+/* Header */
+.ec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.ec-brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: #AD7AF8;
+  letter-spacing: 0.06em;
+}
+
+.ec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #4C4470;
+}
+
+/* Hero score */
+.ec-hero {
+  text-align: center;
+  padding: 20px 0 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 20px;
+}
+
+.ec-hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #4C4470;
+  margin-bottom: 16px;
+}
+
+.ec-ring-wrap {
+  position: relative;
+  width: 110px; height: 110px;
+  margin: 0 auto 16px;
+}
+
+.ec-ring-wrap svg { transform: rotate(-90deg); }
+
+.ec-ring-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+
+.ec-score-num {
+  font-family: 'Poppins', sans-serif;
+  font-size: 36px; font-weight: 700;
+  line-height: 1;
+}
+
+.ec-score-denom {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; color: #4C4470;
+  margin-top: 2px;
+}
+
+.ec-tier-badge {
+  display: inline-block;
+  padding: 5px 18px;
+  border-radius: 999px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px; font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.ec-tier-sub {
+  font-family: 'Noto Sans Thai', 'Sarabun', sans-serif;
+  font-size: 11px;
+  color: #888888;
+}
+
+/* Module row */
+.ec-mods-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.ec-mod-mini {
+  background: #161616;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.ec-mod-mini-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  color: #888888;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.ec-mod-mini-pct {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px; font-weight: 700;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.ec-mod-mini-bar-track {
+  height: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.ec-mod-mini-bar {
+  height: 100%;
+  border-radius: 999px;
+}
+
+/* Improvement */
+.ec-improve-section {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 16px;
+}
+
+.ec-improve-head {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px; letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #AD7AF8;
+  margin-bottom: 10px;
+}
+
+.ec-improve-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 9px 12px;
+  background: #161616;
+  border-radius: 9px;
+  margin-bottom: 6px;
+}
+
+.ec-improve-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px; letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  white-space: nowrap;
+}
+
+.ec-improve-text {
+  font-family: 'Sarabun', sans-serif;
+  font-size: 10.5px; color: #888888;
+  line-height: 1.6;
+}
+
+.ec-improve-text strong { color: #F2EEFF; }
+
+/* Footer */
+.ec-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.ec-footer-brand {
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: #AD7AF8; letter-spacing: 0.05em;
+}
+
+.ec-mantra {
+  display: flex; gap: 10px;
+}
+
+.ec-mantra span {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #4C4470;
+  display: flex; align-items: center; gap: 4px;
+}
+
+.ec-mantra span::before {
+  content: '';
+  width: 3px; height: 3px;
+  border-radius: 50%; background: #4C4470;
+}
+
+/* Bottom accent */
+.ec-bottom-line {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #AD7AF8, transparent);
+}
+
+
+/* ── EXPORT CARD ── */
+#export-card {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  width: 480px;
+  background: #0A0A0A;
+  font-family: 'DM Sans', sans-serif;
+  z-index: -1;
+}
+.ec {
+  width: 480px;
+  background: #0A0A0A;
+  padding: 28px 26px 22px;
+  position: relative;
+  overflow: hidden;
+}
+.ec-glow1 {
+  position: absolute;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(173,122,248,0.08) 0%, transparent 65%);
+  top: -100px; right: -80px;
+  pointer-events: none;
+}
+.ec-glow2 {
+  position: absolute;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(173,122,248,0.05) 0%, transparent 65%);
+  bottom: -60px; left: -40px;
+  pointer-events: none;
+}
+.ec-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  position: relative;
+}
+.ec-brand {
+  font-family: 'DM Mono', monospace;
+  font-size: 15px;
+  color: #AD7AF8;
+  letter-spacing: .05em;
+}
+.ec-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #333344;
+}
+.ec-score {
+  text-align: center;
+  padding: 10px 0 18px;
+  position: relative;
+}
+.ec-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #3A3A5C;
+  margin-bottom: 6px;
+}
+.ec-num {
+  font-family: 'Poppins', sans-serif;
+  font-size: 88px;
+  font-weight: 700;
+  line-height: .9;
+  margin-bottom: 6px;
+}
+.ec-denom {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: #444;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.ec-tier {
+  display: inline-block;
+  padding: 5px 18px;
+  border-radius: 999px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+}
+.ec-mods {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+  margin-bottom: 16px;
+  position: relative;
+}
+.ec-mod {
+  text-align: center;
+  flex: 1;
+}
+.ec-mod-n {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 4px;
+}
+.ec-mod-p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+.ec-imp-hdr {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #AD7AF8;
+  margin-bottom: 8px;
+  position: relative;
+}
+.ec-imp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+.ec-imp-item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  background: #111;
+  border-radius: 8px;
+}
+.ec-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+.ec-itext {
+  font-family: 'Sarabun', sans-serif;
+  font-size: 11px;
+  color: #666;
+  line-height: 1.6;
+}
+.ec-itext strong { color: #D0C8EC; }
+.ec-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #111;
+  position: relative;
+}
+.ec-mantra-word {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #2A2A3C;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ec-mantra-word::before {
+  content: '';
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: #2A2A3C;
+}
+
+
+/* ── EXPORT CARD ── */
+#export-card {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  width: 520px;
+  background: #0A0A0A;
+  font-family: 'DM Sans', 'Sarabun', sans-serif;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.ec {
+  background: #0A0A0A;
+  padding: 26px 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ec-glow1 {
+  position: absolute;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(173,122,248,0.09) 0%, transparent 65%);
+  top: -70px; right: -70px;
+  pointer-events: none;
+}
+
+.ec-glow2 {
+  position: absolute;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(173,122,248,0.05) 0%, transparent 65%);
+  bottom: -50px; left: -30px;
+  pointer-events: none;
+}
+
+.ec-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.ec-brand {
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  color: #AD7AF8;
+  letter-spacing: .06em;
+}
+
+.ec-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #333344;
+  white-space: nowrap;
+}
+
+.ec-score-block {
+  text-align: center;
+  padding: 20px 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.ec-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #3A3A5C;
+  margin-bottom: 20px;
+}
+
+.ec-out-of {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: #444;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.ec-tier {
+  display: inline-block;
+  padding: 6px 20px;
+  border-radius: 999px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.ec-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.ec-mods {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.ec-mod {
+  text-align: center;
+  padding: 0 4px;
+}
+
+.ec-mod-n {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  color: #333344;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 4px;
+}
+
+.ec-mod-p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.ec-imp-hdr {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #AD7AF8;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.ec-imp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+  z-index: 1;
+}
+
+.ec-imp-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 9px 10px;
+  background: #111111;
+  border-radius: 8px;
+}
+
+.ec-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.ec-imp-text {
+  font-family: 'Sarabun', sans-serif;
+  font-size: 10.5px;
+  color: #555555;
+  line-height: 1.55;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.ec-imp-text strong {
+  color: #D0C8EC;
+}
+
+.ec-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  position: relative;
+  z-index: 1;
+}
+
+.ec-mantra-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #2A2A3C;
+}
+
+.ec-mantra-item::before {
+  content: '';
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: #2A2A3C;
+}
+
+
+/* ── VALIDATION ── */
+.q-block.unanswered {
+  border-bottom-color: rgba(248,113,113,0.3);
+  position: relative;
+}
+
+.q-block.unanswered::after {
+  content: '← ยังไม่ได้เลือก';
+  position: absolute;
+  top: 8px; right: 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: #f87171;
+  letter-spacing: 1px;
+  animation: pulse-fade 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-fade {
+  0%,100% { opacity:1; }
+  50% { opacity:0.4; }
+}
+
+.q-block.unanswered .q-text {
+  color: rgba(248,113,113,0.85);
+}
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+<!-- STICKY PROGRESS LINE -->
+<div class="top-bar"><div class="top-bar-fill" id="top-fill"></div></div>
+<div class="sticky-info" id="sticky-info">
+  <div class="sticky-name">
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    northh.fx
+  </div>
+  <div class="sticky-steps" id="sticky-steps"></div>
+  <div class="sticky-pct-label" id="sticky-pct">0%</div>
+</div>
+
+<!-- ══ COVER ══ -->
+<div class="cover" id="cover">
+  <div class="cover-glow"></div>
+  <a href="https://www.instagram.com/northh.fx" target="_blank" class="brand-tag" style="text-decoration:none;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    northh.fx
+  </a>
+  <div class="cover-label">Pre-Trade Assessment</div>
+  <h1>ระบบเทรดของคุณ<br>ชัดเจนแค่ไหน <em>?</em></h1>
+  <p class="cover-th">แบบประเมิน 12 ข้อ เพื่อรู้จักระบบเทรดตัวเองมากขึ้น<br>(ไม่มีคำตอบที่ถูกหรือผิด — ขอแค่ซื่อสัตย์กับตัวเองนะครับ)</p>
+  <button class="start-btn" onclick="startAssessment()">
+    เริ่มประเมิน
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </button>
+
+</div>
+
+<!-- ══ ASSESSMENT ══ -->
+<div class="assessment" id="assessment">
+
+  <!-- MODULE 1 — ENTRY -->
+
+  <!-- MODULE 1 HEADER -->
+  <div class="module-header">
+    <div class="module-header-num">01</div>
+    <div class="module-header-info">
+      <div class="module-header-title">Entry</div>
+      <div class="module-header-sub">จุดเข้าเทรดของคุณชัดแค่ไหน ?</div>
+    </div>
+  </div>
+  <div class="module-divider"></div>
+
+  <div class="q-block">
+    <div class="q-text">คุณสามารถอธิบาย Setup ของคุณให้คนอื่นเข้าใจได้ทันทีไหม?</div>
+    <div class="q-hint">ความชัดเจนของ Setup คือพื้นฐานของการลดผลกระทบจากอารมณ์ ที่อาจนำไปสู่การตัดสินใจที่ผิดพลาด</div>
+    <div class="choices" id="g-setup-clarity">
+      <div class="choice-tile" onclick="pick(this,'setup-clarity','clear')"><div class="choice-indicator"></div><div class="choice-label">ได้ — อธิบายได้ชัดใน 5–10 นาที ไม่ต้องคิดนาน</div></div>
+      <div class="choice-tile" onclick="pick(this,'setup-clarity','partial')"><div class="choice-indicator"></div><div class="choice-label">ได้บางส่วน — พออธิบายได้แต่ยังมีจุดที่ไม่แน่ใจ ตอบได้ไม่ชัด เพราะเน้นใช้ความรู้สึกตัดสินใจหน้างาน</div></div>
+      <div class="choice-tile" onclick="pick(this,'setup-clarity','unclear')"><div class="choice-indicator"></div><div class="choice-label">ยังไม่ได้ — ยังไม่แน่ใจว่า Setup ตัวเองคืออะไรกันแน่</div></div>
+    </div>
+    <div class="q-insight" id="setup-clarity-i-unclear"><span class="q-insight-icon">💡</span><p>ถ้าอธิบาย Setup ของตัวเองให้คนอื่นฟังไม่ได้ แสดงว่า <strong>ยังไม่ชัดพอที่จะ backtest หรือวัดผลได้</strong></p></div>
+    <div class="q-insight" id="setup-clarity-i-partial"><span class="q-insight-icon">💡</span><p>จุดที่ไม่แน่ใจคือจุดที่ <strong>สมองจะสร้างการตัดสินใจขึ้นมาใหม่ทุกครั้ง</strong></p></div>
+    <div class="q-reflection">
+      <div class="q-reflection-label">ลองเขียน Setup ของคุณออกมาดูครับ (ไม่บังคับ)</div>
+      <textarea placeholder="เช่น รอ breakout จาก resistance บน TF 1H หลังจากมี retest..."></textarea>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-text">โดยปกติก่อนเปิดออเดอร์ คุณรอให้เงื่อนไขการเข้าเทรดครบทุกข้อก่อนไหม?</div>
+    <div class="q-hint">การรอให้เงื่อนไขครบถ้วนจะช่วยตัดอารมณ์ ณ จุดที่เข้าเทรดและขณะที่ถือออเดอร์ และส่งผลดีกับผลลัพธ์ระยะยาว</div>
+    <div class="choices" id="g-entry-conditions">
+      <div class="choice-tile" onclick="pick(this,'entry-conditions','clear')"><div class="choice-indicator"></div><div class="choice-label">รอครบทุกเงื่อนไขเสมอ — ไม่เปิดออเดอร์ถ้ายังไม่ครบ</div></div>
+      <div class="choice-tile" onclick="pick(this,'entry-conditions','partial')"><div class="choice-indicator"></div><div class="choice-label">รอบางเงื่อนไข — บางครั้งเข้าก่อนแม้ยังไม่ครบ</div></div>
+      <div class="choice-tile" onclick="pick(this,'entry-conditions','none')"><div class="choice-indicator"></div><div class="choice-label">ไม่ได้รอ — เข้าตามความรู้สึกว่า setup นี้น่าจะใช่</div></div>
+    </div>
+    <div class="q-insight" id="entry-conditions-i-none"><span class="q-insight-icon">⚠️</span><p><strong>การเข้าตามความรู้สึกทำให้ทำซ้ำไม่ได้</strong> และถ้าทำซ้ำไม่ได้ก็วัดผลไม่ได้</p></div>
+    <div class="q-insight" id="entry-conditions-i-partial"><span class="q-insight-icon">💡</span><p>ข้อที่ยังไม่แน่ใจคือ <strong>ช่องว่างที่อารมณ์จะเข้ามาตัดสินใจแทนระบบ</strong></p></div>
+    <div class="q-reflection">
+      <div class="q-reflection-label">ลองเขียน Conditions ออกมาดูครับ (ไม่บังคับ)</div>
+      <textarea placeholder="เช่น 1. ราคาอยู่เหนือ EMA&#10;       2. Volume เพิ่มขึ้น&#10;       3. Candle ปิด bullish..."></textarea>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-text">คุณ backtest Setup นี้จนรู้ตัวเลขสถิติเพื่อยืนยันว่ามันใช้ได้จริงแล้วหรือยัง?</div>
+    <div class="q-hint">ความเชื่อมั่นในระบบต้องมาจากข้อมูล ไม่ใช่แค่ความรู้สึกว่ามันน่าจะใช้ได้</div>
+    <div class="choices" id="g-backtest-yn">
+      <div class="choice-tile" onclick="pick(this,'backtest-yn','stats')"><div class="choice-indicator"></div><div class="choice-label">ทดสอบจนรู้สถิติแล้ว — มีตัวเลข Win Rate, RR ที่ยืนยันได้</div></div>
+      <div class="choice-tile" onclick="pick(this,'backtest-yn','unsure')"><div class="choice-indicator"></div><div class="choice-label">ทดสอบแล้ว แต่รู้สึกไม่มั่นใจในระบบอยู่ดี</div></div>
+      <div class="choice-tile" onclick="pick(this,'backtest-yn','no')"><div class="choice-indicator"></div><div class="choice-label">ยังไม่ได้ทดสอบ — ใช้ตามที่คิดว่าน่าจะได้ผล</div></div>
+    </div>
+    <div class="q-insight" id="backtest-yn-i-no"><span class="q-insight-icon">💡</span><p>ถ้ายังไม่ได้ backtest คุณกำลังเทรดด้วย <strong>ความเชื่อ ไม่ใช่หลักฐาน</strong> ลองเริ่มบันทึก 30–50 trade แรกเพื่อดูว่า Setup ใช้ได้จริงไหมครับ</p></div>
+    <div class="q-insight" id="backtest-yn-i-unsure"><span class="q-insight-icon">💡</span><p>ถ้าทดสอบแล้วแต่ยังไม่มั่นใจ มักหมายความว่า <strong>ระบบยังไม่ชัดพอที่จะทำซ้ำได้เหมือนกันทุกครั้ง</strong> ลองกลับไปดูว่า Entry Conditions ของคุณชัดพอไหม หรือ Setup ที่ทดสอบมีนิยามที่แน่ชัดหรือเปล่า</p></div>
+    <div class="q-insight" id="backtest-yn-i-stats"><span class="q-insight-icon">✓</span><p>ดีมากครับ ตัวเลขสถิติคือสิ่งที่ทำให้คุณ <strong>เชื่อใจระบบได้จริงในวันที่ผลลัพธ์ไม่ดี</strong> ไม่ใช่แค่ความรู้สึก</p></div>
+  </div>
+
+  <!-- MODULE 2 — SL -->
+
+  <!-- MODULE 2 HEADER -->
+  <div class="module-header" style="padding-top:48px;">
+    <div class="module-header-num">02</div>
+    <div class="module-header-info">
+      <div class="module-header-title">Stop Loss</div>
+      <div class="module-header-sub">SL ของคุณมีกฎที่ชัดเจนไหม ?</div>
+    </div>
+  </div>
+  <div class="module-divider"></div>
+
+  <div class="q-block">
+    <div class="q-text">คุณรู้ว่าต้องวาง SL ที่ไหน ก่อนที่จะกดออเดอร์ไหม?</div>
+    <div class="q-hint">SL ที่ดีต้องมีเหตุผล ไม่ใช่แค่เลือกวางในจุดที่รู้สึกว่าปลอดภัย</div>
+    <div class="choices" id="g-sl-clarity">
+      <div class="choice-tile" onclick="pick(this,'sl-clarity','clear')"><div class="choice-indicator"></div><div class="choice-label">รู้ชัดเจน — มีกฎที่บอกว่าต้องวางตรงไหนเสมอ</div></div>
+      <div class="choice-tile" onclick="pick(this,'sl-clarity','partial')"><div class="choice-indicator"></div><div class="choice-label">รู้บางส่วน — มีหลักคร่าวๆ แต่ยังยืดหยุ่นตามสถานการณ์</div></div>
+      <div class="choice-tile" onclick="pick(this,'sl-clarity','feel')"><div class="choice-indicator"></div><div class="choice-label">ใช้ความรู้สึก — วางตรงที่รู้สึกว่าน่าจะโอเค</div></div>
+    </div>
+    <div class="q-insight" id="sl-clarity-i-feel"><span class="q-insight-icon">⚠️</span><p>SL ที่วางตามความรู้สึกทำให้ <strong>ไม่มีเหตุผลที่ชัดเจนว่า setup ล้มเหลวเมื่อไหร่</strong></p></div>
+    <div class="q-insight" id="sl-clarity-i-partial"><span class="q-insight-icon">💡</span><p>ความยืดหยุ่นที่ไม่มีกฎรองรับ มักกลายเป็น <strong>อารมณ์ตัดสินใจแทนระบบในช่วงที่กดดัน</strong></p></div>
+    <div class="q-reflection">
+      <div class="q-reflection-label">ลองเขียนตำแหน่ง SL และเหตุผลออกมาดูครับ (ไม่บังคับ)</div>
+      <textarea placeholder="เช่น วาง SL ใต้ wick ของแท่งเทียนที่ entry..."></textarea>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-text">คุณย้าย SL ระหว่างที่กำลังถือออเดอร์บ้างไหม?</div>
+    <div class="q-hint">ถ้าย้าย — เพราะกฎ หรือเพราะอารมณ์?</div>
+    <div class="choices" id="g-sl-move">
+      <div class="choice-tile" onclick="pick(this,'sl-move','never')"><div class="choice-indicator"></div><div class="choice-label">ไม่ย้ายเลย — ตั้งแล้วปล่อย</div></div>
+      <div class="choice-tile" onclick="pick(this,'sl-move','rule')"><div class="choice-indicator"></div><div class="choice-label">ย้ายได้ แต่ต้องมีกฎชัดเจนก่อนเท่านั้น</div></div>
+      <div class="choice-tile" onclick="pick(this,'sl-move','feel')"><div class="choice-indicator"></div><div class="choice-label">ย้ายตามที่รู้สึก ณ ตอนนั้น</div></div>
+    </div>
+    <div class="q-insight" id="sl-move-i-feel"><span class="q-insight-icon">⚠️</span><p>การย้าย SL เพราะอารมณ์คือการเปิดให้ <strong>ความกลัวเป็นคนตัดสินใจแทนระบบ</strong></p></div>
+    <div class="q-insight" id="sl-move-i-never"><span class="q-insight-icon">✓</span><p><strong>วิธีที่ clean ที่สุด</strong> ตั้งแล้วปล่อยให้ระบบทำงาน ความสงบเริ่มต้นจากตรงนี้</p></div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-text">ถ้าราคาวิ่งมาใกล้ SL แต่ยังไม่โดน คุณจะทำยังไง?</div>
+    <div class="q-hint">คำตอบนี้บอกว่าคุณเชื่อใจ setup ตัวเองแค่ไหน</div>
+    <div class="choices" id="g-sl-near">
+      <div class="choice-tile" onclick="pick(this,'sl-near','hold')"><div class="choice-indicator"></div><div class="choice-label">ถือต่อ — SL ยังไม่โดน ระบบยังทำงานอยู่</div></div>
+      <div class="choice-tile" onclick="pick(this,'sl-near','close')"><div class="choice-indicator"></div><div class="choice-label">ปิดก่อน — กลัวว่าจะโดน SL</div></div>
+      <div class="choice-tile" onclick="pick(this,'sl-near','depends')"><div class="choice-indicator"></div><div class="choice-label">เลื่อน SL ออกไปอีก เพราะไม่อยากรู้สึกว่าตัวเองแพ้</div></div>
+    </div>
+    <div class="q-insight" id="sl-near-i-close"><span class="q-insight-icon">💡</span><p>นี่คือสัญญาณที่บอกว่า <strong>SL อยู่ในตำแหน่งที่คุณไม่ได้เชื่อใจมัน</strong></p></div>
+    <div class="q-insight" id="sl-near-i-depends"><span class="q-insight-icon">⚠️</span><p><strong>"แล้วแต่สถานการณ์"</strong> มักหมายความว่ากฎยังไม่ชัด ระบบที่ดีควรมีคำตอบที่เหมือนกันทุกครั้ง</p></div>
+  </div>
+
+  <!-- MODULE 3 — TP -->
+
+  <!-- MODULE 3 HEADER -->
+  <div class="module-header" style="padding-top:48px;">
+    <div class="module-header-num">03</div>
+    <div class="module-header-info">
+      <div class="module-header-title">Take Profit</div>
+      <div class="module-header-sub">TP ของคุณมาจากข้อมูล หรือความรู้สึก ?</div>
+    </div>
+  </div>
+  <div class="module-divider"></div>
+
+  <div class="q-block">
+    <div class="q-text">กลยุทธ์ออกจาก trade ของคุณถูกกำหนดไว้ก่อนเปิดออเดอร์ไหม?</div>
+    <div class="q-hint">ไม่ว่าจะเป็น Fixed TP, Trailing SL หรือวิธีอื่น — สิ่งที่สำคัญคือมีกฎชัดเจนก่อนเปิด ไม่ใช่ตัดสินใจหน้างาน และควรทดสอบจนมีสถิติที่คุณเชื่อมั่นจริงๆ</div>
+    <div class="choices" id="g-rr-source">
+      <div class="choice-tile" onclick="pick(this,'rr-source','data')"><div class="choice-indicator"></div><div class="choice-label">มีกฎชัดเจน — กำหนดไว้ก่อนเปิดออเดอร์เสมอ และมาจากการทดสอบและมีสถิติรองรับ</div></div>
+      <div class="choice-tile" onclick="pick(this,'rr-source','general')"><div class="choice-indicator"></div><div class="choice-label">มีกฎคร่าวๆ — แต่ยังปรับเปลี่ยนระหว่าง trade บ้าง เพราะยังไม่มีสถิติรองรับ และความมั่นใจไม่มากพอ</div></div>
+      <div class="choice-tile" onclick="pick(this,'rr-source','feel')"><div class="choice-indicator"></div><div class="choice-label">ไม่มีกฎ — ปิดเมื่อรู้สึกว่าพอแล้ว หรือเมื่อเริ่มกังวล</div></div>
+    </div>
+    <div class="q-insight" id="rr-source-i-feel"><span class="q-insight-icon">⚠️</span><p>การออกตามความรู้สึกทำให้ <strong>วัดผลลัพธ์ไม่ได้และทำซ้ำไม่ได้</strong> เพราะแต่ละ trade ออกด้วยเหตุผลที่ต่างกัน ลองเริ่มกำหนดกฎออกให้ชัดก่อนเปิดออเดอร์ครับ</p></div>
+    <div class="q-insight" id="rr-source-i-general"><span class="q-insight-icon">💡</span><p>การปรับเปลี่ยนระหว่าง trade โดยไม่มีกฎรองรับมักเกิดจาก <strong>อารมณ์กลัวหรือโลภ ไม่ใช่ระบบ</strong> ลองเขียนเงื่อนไขที่ชัดขึ้นก่อนเปิดออเดอร์ครับ</p></div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-text">เมื่อ trade กำลังกำไรอยู่ คุณตัดสินใจออกจากการเทรดนั้นยังไง?</div>
+    <div class="q-hint">สิ่งที่คุณทำจริงๆ อาจต่างจากสิ่งที่คิดว่าทำ</div>
+    <div class="choices" id="g-tp-behavior">
+      <div class="choice-tile" onclick="pick(this,'tp-behavior','wait')"><div class="choice-indicator"></div><div class="choice-label">ออกตามกฎที่ตั้งไว้ก่อนเสมอ — ปล่อยให้ราคาแตะ TP หรือ Trailing SL ที่ตั้งไว้</div></div>
+      <div class="choice-tile" onclick="pick(this,'tp-behavior','early')"><div class="choice-indicator"></div><div class="choice-label">ปิดก่อนกฎจะทำงาน เพราะกลัวกำไรหาย</div></div>
+      <div class="choice-tile" onclick="pick(this,'tp-behavior','extend')"><div class="choice-indicator"></div><div class="choice-label">ขยับเป้าออกไปอีก เพราะโลภอยากได้มากขึ้น</div></div>
+    </div>
+    <div class="q-insight" id="tp-behavior-i-early"><span class="q-insight-icon">💡</span><p>การปิดก่อน TP คือการให้ <strong>ความกลัวตัดสินใจแทนระบบ</strong> ในระยะยาวมันทำลาย Expected Value</p></div>
+    <div class="q-insight" id="tp-behavior-i-extend"><span class="q-insight-icon">⚠️</span><p>การขยับ TP ออกไปคือ <strong>ความโลภในรูปแบบที่ดูเหมือนมีเหตุผล</strong></p></div>
+  </div>
+
+  <!-- MODULE 4 — MANAGEMENT -->
+
+  <!-- MODULE 4 HEADER -->
+  <div class="module-header" style="padding-top:48px;">
+    <div class="module-header-num">04</div>
+    <div class="module-header-info">
+      <div class="module-header-title">Trade Management</div>
+      <div class="module-header-sub">ระหว่างที่ position เปิดอยู่ คุณทำอะไร ?</div>
+    </div>
+  </div>
+  <div class="module-divider"></div>
+
+  <div class="q-block">
+    <div class="q-text">คุณมี Rule สำหรับ Trade Management ที่เขียนไว้ชัดเจนแล้วไหม?</div>
+    <div class="q-hint">Trailing stop, partial close, break-even — ถ้ามีต้องเป็นกฎ ไม่ใช่ความรู้สึก</div>
+    <div class="yn-tiles">
+      <div class="yn-tile yes" onclick="pickYN(this,'mgmt-yn','yes')">✓ มีกฎชัดเจน</div>
+      <div class="yn-tile no"  onclick="pickYN(this,'mgmt-yn','no')">✕ ยังไม่มี</div>
+    </div>
+    <div class="q-insight" id="mgmt-yn-i-no"><span class="q-insight-icon">💡</span><p>วิธีที่ง่ายที่สุดคือ <strong>ตั้ง SL และ TP แล้วไม่แตะอีกเลย</strong> ก็ถือว่ามีระบบ Management แล้ว</p></div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-text">ขณะที่กำลังถือ position อยู่ คุณรู้สึกยังไง?</div>
+    <div class="q-hint">ความรู้สึกระหว่างถือออเดอร์บอกได้มากว่าระบบของคุณชัดเจนแค่ไหน</div>
+    <div class="choices" id="g-watch">
+      <div class="choice-tile" onclick="pick(this,'watch','close')"><div class="choice-indicator"></div><div class="choice-label">สบายใจ — เพราะทุกอย่างถูกกำหนดไว้แล้ว</div></div>
+      <div class="choice-tile" onclick="pick(this,'watch','check')"><div class="choice-indicator"></div><div class="choice-label">กังวลนิดหน่อย — รู้สึกอยากเช็คกราฟบ่อยกว่าปกติ แต่ยังไม่ถึงขั้นอยากเข้าไปปรับอะไร</div></div>
+      <div class="choice-tile" onclick="pick(this,'watch','stare')"><div class="choice-indicator"></div><div class="choice-label">ไม่สบายใจ — นั่งเฝ้ากราฟ เพราะกังวลมากจนต้องเช็คตลอด ไม่มั่นใจว่า trade จะเป็นยังไง</div></div>
+    </div>
+    <div class="q-insight" id="watch-i-stare"><span class="q-insight-icon">⚠️</span><p>ความรู้สึกอยากเข้าไปจัดการตลอดเวลาเป็นสัญญาณว่า <strong>กฎยังไม่ชัดพอที่จะปล่อยให้ระบบทำงานเองได้</strong> ยิ่งเปิดโอกาสให้อารมณ์เข้ามาแทรกมากเท่าไหร่ ยิ่งเสี่ยงตัดสินใจผิดพลาด</p></div>
+    <div class="q-insight" id="watch-i-close"><span class="q-insight-icon">✓</span><p>นี่คือสัญญาณที่บอกว่าคุณ <strong>เชื่อใจระบบของตัวเองจริงๆ</strong> ไม่ว่าจะดูกราฟหรือไม่ก็ตาม ความสงบมาจากกฎที่ชัด ไม่ใช่จากการหยุดดูกราฟ</p></div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-text">หลังจาก trade ปิดแล้ว คุณมีการบันทึกผลทุกครั้งไหม?</div>
+    <div class="q-hint">ระบบที่ชัดเจนไม่ได้เกิดขึ้นเอง — มันเริ่มจากการจดบันทึก แล้วเรียนรู้จากสิ่งที่บันทึกนั้นอย่างจริงจัง</div>
+    <div class="choices" id="g-journal">
+      <div class="choice-tile" onclick="pick(this,'journal','always')"><div class="choice-indicator"></div><div class="choice-label">บันทึกทุก trade — สม่ำเสมอ</div></div>
+      <div class="choice-tile" onclick="pick(this,'journal','sometimes')"><div class="choice-indicator"></div><div class="choice-label">บันทึกบางครั้ง แล้วแต่อารมณ์</div></div>
+      <div class="choice-tile" onclick="pick(this,'journal','never')"><div class="choice-indicator"></div><div class="choice-label">ยังไม่ได้บันทึก</div></div>
+    </div>
+    <div class="q-insight" id="journal-i-never"><span class="q-insight-icon">💡</span><p>ลองเริ่มแบบง่ายๆ ก่อนครับ <strong>แคปภาพ chart ก่อนและหลัง trade ทุกครั้ง</strong></p></div>
+    <div class="q-insight" id="journal-i-sometimes"><span class="q-insight-icon">⚠️</span><p>การบันทึกแบบ selective มักทำให้เราข้าม trade ที่ไม่อยากจำ <strong>ข้อมูลที่ขาดหายไปคือข้อมูลที่สำคัญที่สุด</strong></p></div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-text">ระบบเทรดของคุณตอนนี้พร้อมแค่ไหน ในความรู้สึกของคุณเอง?</div>
+    <div class="q-hint">ไม่มีคำตอบที่ถูกหรือผิด แค่อยากให้คุณซื่อสัตย์กับตัวเอง</div>
+    <div class="choices" id="g-readiness">
+      <div class="choice-tile" onclick="pick(this,'readiness','ready')"><div class="choice-indicator"></div><div class="choice-label">ชัดเจน — Entry, SL, TP, Management ครบ มีกฎทุกข้อ</div></div>
+      <div class="choice-tile" onclick="pick(this,'readiness','partial')"><div class="choice-indicator"></div><div class="choice-label">ชัดเจนบางส่วน — ยังมีจุดที่ต้องตัดสินใจระหว่าง trade</div></div>
+      <div class="choice-tile" onclick="pick(this,'readiness','unclear')"><div class="choice-indicator"></div><div class="choice-label">ยังไม่ชัด — ส่วนใหญ่ตัดสินใจตามสถานการณ์</div></div>
+    </div>
+    <div class="q-insight" id="readiness-i-unclear"><span class="q-insight-icon">💡</span><p>ความซื่อสัตย์นี้คือจุดเริ่มต้นที่ดีที่สุด <strong>ระบบที่ชัดเจนไม่ได้สร้างในวันเดียว</strong></p></div>
+    <div class="q-insight" id="readiness-i-ready"><span class="q-insight-icon">✓</span><p>ถ้าระบบชัดเจนจริงๆ <strong>คุณจะรู้สึกสงบเวลาเทรด ไม่ใช่กังวล</strong></p></div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-wrap">
+    <button class="submit-btn" onclick="validateAndSubmit()">
+      ดูผลการประเมิน
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </button>
+  </div>
+
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div class="dashboard" id="dashboard">
+
+  <div id="score-section" style="padding-bottom:10px;">
+  <div class="score-hero">
+    <div class="score-ring-wrap">
+      <svg width="150" height="150" viewBox="0 0 150 150">
+        <circle cx="75" cy="75" r="62" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+        <circle cx="75" cy="75" r="62" fill="none" stroke="#AD7AF8" stroke-width="8"
+          stroke-linecap="round"
+          stroke-dasharray="390" stroke-dashoffset="390"
+          id="score-ring"
+          style="transition:stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1);"/>
+      </svg>
+      <div class="score-center">
+        <div class="score-num" id="score-num">0</div>
+        <div class="score-denom">/ 100</div>
+      </div>
+    </div>
+    <div class="tier-pill" id="tier-pill"></div>
+    <p class="tier-desc" id="tier-desc"></p>
+  </div>
+
+  <div class="module-grid" id="module-grid-inner">
+    <div class="mod-card" id="mod-entry">
+      <div class="mod-top">
+        <div class="mod-info">
+          <div class="mod-icon">🎯</div>
+          <div class="mod-name-wrap">
+            <div class="mod-name">Entry</div>
+            <div class="mod-tier-label" id="mod-entry-lbl"></div>
+          </div>
+        </div>
+        <div class="mod-score-wrap">
+          <div class="mod-pct" id="mod-entry-pct">—</div>
+        </div>
+      </div>
+      <div class="mod-bar-track"><div class="mod-bar" id="mod-entry-bar"></div></div>
+      <div class="mod-flags" id="mod-entry-flags"></div>
+    </div>
+    <div class="mod-card" id="mod-sl">
+      <div class="mod-top">
+        <div class="mod-info">
+          <div class="mod-icon">🛡</div>
+          <div class="mod-name-wrap">
+            <div class="mod-name">Stop Loss</div>
+            <div class="mod-tier-label" id="mod-sl-lbl"></div>
+          </div>
+        </div>
+        <div class="mod-score-wrap">
+          <div class="mod-pct" id="mod-sl-pct">—</div>
+        </div>
+      </div>
+      <div class="mod-bar-track"><div class="mod-bar" id="mod-sl-bar"></div></div>
+      <div class="mod-flags" id="mod-sl-flags"></div>
+    </div>
+    <div class="mod-card" id="mod-tp">
+      <div class="mod-top">
+        <div class="mod-info">
+          <div class="mod-icon">📈</div>
+          <div class="mod-name-wrap">
+            <div class="mod-name">Take Profit</div>
+            <div class="mod-tier-label" id="mod-tp-lbl"></div>
+          </div>
+        </div>
+        <div class="mod-score-wrap">
+          <div class="mod-pct" id="mod-tp-pct">—</div>
+        </div>
+      </div>
+      <div class="mod-bar-track"><div class="mod-bar" id="mod-tp-bar"></div></div>
+      <div class="mod-flags" id="mod-tp-flags"></div>
+    </div>
+    <div class="mod-card" id="mod-mgmt">
+      <div class="mod-top">
+        <div class="mod-info">
+          <div class="mod-icon">⚙️</div>
+          <div class="mod-name-wrap">
+            <div class="mod-name">Management</div>
+            <div class="mod-tier-label" id="mod-mgmt-lbl"></div>
+          </div>
+        </div>
+        <div class="mod-score-wrap">
+          <div class="mod-pct" id="mod-mgmt-pct">—</div>
+        </div>
+      </div>
+      <div class="mod-bar-track"><div class="mod-bar" id="mod-mgmt-bar"></div></div>
+      <div class="mod-flags" id="mod-mgmt-flags"></div>
+    </div>
+  </div>
+
+  <div class="actions-card" id="action-section">
+    <div class="actions-head">Improvement</div>
+    <div id="action-list"></div>
+  </div>
+
+  <!-- Save button right after Improvement -->
+  <div style="text-align:center;margin-top:10px;margin-bottom:10px;">
+    <button class="save-btn" onclick="saveImage('export-card','northhfx-assessment.png',this)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Save Image
+    </button>
+  </div>
+
+  <div class="dash-cta">
+    <p class="dash-cta-text">ระบบที่ชัดเจนไม่ได้สร้างในวันเดียว<br>แต่การรู้ว่าตรงไหนต้องพัฒนา คือสิ่งที่ช่วยให้คุณ<br>ไม่ต้องลองผิดลองถูกแบบไม่มีจุดหมายครับ</p>
+    <p class="dash-cta-text" style="font-size:12px;color:var(--subtle);">ไม่อยากพลาดเนื้อหาดีๆ กดติดตามกันไว้นะครับ 👇🏻</p>
+    <a href="https://www.instagram.com/northh.fx" target="_blank" class="ig-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      <span>northh.fx</span>
+    </a>
+    <div class="mantra">
+      <span>Simple</span><span>Clear</span><span>Repeatable</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const state = {
+  'setup-clarity':null,'entry-conditions':null,'backtest-yn':null,
+  'sl-clarity':null,'sl-move':null,'sl-near':null,
+  'rr-source':null,'tp-behavior':null,
+  'mgmt-yn':null,'watch':null,'journal':null,'readiness':null
+};
+
+const TOTAL = 12;
+
+function startAssessment() {
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('assessment').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function pick(el, key, val) {
+  el.closest('.choices').querySelectorAll('.choice-tile').forEach(t => t.classList.remove('selected'));
+  el.classList.add('selected');
+  state[key] = val;
+  // clear validation highlight
+  const block = el.closest('.q-block');
+  if (block) block.classList.remove('unanswered');
+  updateProgress();
+}
+
+function pickYN(el, key, val) {
+  el.closest('.yn-tiles').querySelectorAll('.yn-tile').forEach(t => t.classList.remove('selected'));
+  el.classList.add('selected');
+  state[key] = val;
+  // clear validation highlight
+  const block = el.closest('.q-block');
+  if (block) block.classList.remove('unanswered');
+  updateProgress();
+}
+
+function updateProgress() {
+  const filled = Object.values(state).filter(Boolean).length;
+  const pct = filled >= TOTAL ? 100 : Math.round((filled / TOTAL) * 100);
+  document.getElementById('top-fill').style.width = pct + '%';
+  document.getElementById('sticky-pct').textContent = pct + '%';
+
+  // update step dots
+  const dots = document.getElementById('sticky-steps');
+  dots.innerHTML = Object.values(state).map((v,i) =>
+    `<div class="sticky-step-dot ${v ? 'done' : ''}"></div>`
+  ).join('');
+}
+
+window.addEventListener('scroll', () => {
+  const cover = document.getElementById('cover');
+  const info  = document.getElementById('sticky-info');
+  if (!cover || !info) return;
+  if (cover.getBoundingClientRect().bottom < 0 &&
+      document.getElementById('assessment').classList.contains('active')) {
+    info.classList.add('visible');
+  } else {
+    info.classList.remove('visible');
+  }
+}, { passive: true });
+
+// ── SCORING ──
+const scores = {
+  'setup-clarity':    { clear:100, partial:50, unclear:0 },
+  'entry-conditions': { clear:100, partial:50, none:0 },
+  'backtest-yn':      { stats:100, unsure:35, no:0 },
+  'sl-clarity':       { clear:100, partial:55, feel:5 },
+  'sl-move':          { never:100, rule:70, feel:10 },
+  'sl-near':          { hold:100, depends:45, close:15 },
+  'rr-source':        { data:100, general:55, feel:5 },
+  'tp-behavior':      { wait:100, early:20, extend:30 },
+  'mgmt-yn':          { yes:100, no:30 },
+  'watch':            { close:100, check:65, stare:15 },
+  'journal':          { always:100, sometimes:40, never:5 },
+  'readiness':        { ready:100, partial:50, unclear:10 }
+};
+
+function getS(k) { return scores[k]?.[state[k]] ?? 0; }
+
+function modScore(keys) {
+  const vals = keys.map(getS);
+  return Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+}
+
+function getTier(s) {
+  if (s>=80) return { label:'ระบบชัดเจน', en:'System Clear', color:'#4ade80', bg:'rgba(74,222,128,0.12)', bd:'rgba(74,222,128,0.3)', cls:'clear' };
+  if (s>=55) return { label:'ชัดเจนบางส่วน', en:'Partially Clear', color:'#f0b429', bg:'rgba(240,180,41,0.1)', bd:'rgba(240,180,41,0.3)', cls:'partial' };
+  return { label:'ต้องพัฒนาต่อ', en:'Needs Clarity', color:'#f87171', bg:'rgba(248,113,113,0.1)', bd:'rgba(248,113,113,0.25)', cls:'unclear' };
+}
+
+function renderMod(id, score, flags) {
+  const tier = getTier(score);
+  document.getElementById('mod-'+id).classList.add(tier.cls);
+  const pEl = document.getElementById('mod-'+id+'-pct');
+  pEl.textContent = score+'%'; pEl.style.color = barCol(score);
+  const lEl = document.getElementById('mod-'+id+'-lbl');
+  lEl.textContent = tier.label; lEl.style.color = '#888888'; lEl.style.fontFamily = "'DM Mono',monospace";
+  const bar = document.getElementById('mod-'+id+'-bar');
+  bar.style.width = score+'%'; bar.style.background = barCol(score);
+  document.getElementById('mod-'+id+'-flags').innerHTML = flags.map(f=>
+    `<div class="mod-flag"><div class="flag-dot" style="background:${f.ok?'#4ade80':'#f87171'}"></div><span>${f.text}</span></div>`
+  ).join('');
+}
+
+
+function validateAndSubmit() {
+  // Required keys (textarea fields are optional)
+  const required = [
+    'setup-clarity','entry-conditions','backtest-yn',
+    'sl-clarity','sl-move','sl-near',
+    'rr-source','tp-behavior',
+    'mgmt-yn','watch','journal','readiness'
+  ];
+
+  // Map key to q-block — find by which group/yn contains the key
+  const keyToBlockMap = {
+    'setup-clarity':    'g-setup-clarity',
+    'entry-conditions': 'g-entry-conditions',
+    'backtest-yn':      'backtest-yn',
+    'sl-clarity':       'g-sl-clarity',
+    'sl-move':          'g-sl-move',
+    'sl-near':          'g-sl-near',
+    'rr-source':        'g-rr-source',
+    'tp-behavior':      'g-tp-behavior',
+    'mgmt-yn':          'mgmt-yn',
+    'watch':            'g-watch',
+    'journal':          'g-journal',
+    'readiness':        'g-readiness'
+  };
+
+  // Clear previous validation
+  document.querySelectorAll('.q-block.unanswered').forEach(el => el.classList.remove('unanswered'));
+
+  const missing = required.filter(k => !state[k]);
+
+  if (missing.length > 0) {
+    // Mark unanswered blocks
+    missing.forEach(k => {
+      const groupId = keyToBlockMap[k];
+      const groupEl = document.getElementById(groupId);
+      if (groupEl) {
+        const block = groupEl.closest('.q-block');
+        if (block) block.classList.add('unanswered');
+      }
+    });
+    // Scroll to first unanswered
+    const first = document.querySelector('.q-block.unanswered');
+    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  showDashboard();
+}
+
+function showDashboard() {
+  document.querySelectorAll('.q-insight').forEach(el => el.classList.remove('show'));
+  Object.entries(state).forEach(([key,val]) => {
+    if (!val) return;
+    const el = document.getElementById(key+'-i-'+val);
+    if (el) el.classList.add('show');
+  });
+
+  document.getElementById('sticky-info').classList.remove('visible');
+  document.getElementById('sticky-info').style.display = 'none';
+  document.getElementById('top-fill').style.width = '100%';
+
+  const eS  = modScore(['setup-clarity','entry-conditions','backtest-yn']);
+  const slS = modScore(['sl-clarity','sl-move','sl-near']);
+  const tpS = modScore(['rr-source','tp-behavior']);
+  const mS  = modScore(['mgmt-yn','watch','journal','readiness']);
+  const overall = Math.round((eS+slS+tpS+mS)/4);
+
+  const ring = document.getElementById('score-ring');
+  setTimeout(() => {
+    ring.style.strokeDashoffset = 390 - (390*overall/100);
+    ring.style.stroke = barCol(overall);
+  }, 200);
+
+  const numEl = document.getElementById('score-num');
+  let cur = 0;
+  const iv = setInterval(() => {
+    cur = Math.min(cur+2, overall);
+    numEl.textContent = cur;
+    numEl.style.color = barCol(cur);
+    if (cur >= overall) clearInterval(iv);
+  }, 14);
+
+  const t = getTier(overall);
+  const pill = document.getElementById('tier-pill');
+  pill.textContent = t.label + ' — ' + t.en;
+  pill.style.cssText += `background:${t.bg};border:1px solid ${t.bd};color:${t.color};`;
+  const descs = {
+    clear:'ระบบของคุณชัดเจนในระดับที่ดีมากแล้วครับ กุญแจต่อไปคือทำตามระบบให้สม่ำเสมอและ track ผลลัพธ์เพื่อพัฒนาต่อ',
+    partial:'ระบบของคุณมีรากฐานที่ดีแล้ว แต่ยังมีบางจุดที่อารมณ์อาจเข้ามาแทรกแซงได้ การแก้จุดที่ยังไม่ชัดจะเปลี่ยนผลลัพธ์ได้มากครับ',
+    unclear:'ยังมีพื้นที่ให้พัฒนาอีกมาก แต่การที่คุณรู้ว่าตรงไหนต้องแก้คือก้าวแรกที่สำคัญที่สุดแล้วครับ'
+  };
+  document.getElementById('tier-desc').textContent = descs[t.cls];
+
+  renderMod('entry', eS, [
+    state['setup-clarity']==='clear'  ? {ok:true,text:'Setup ชัดเจน'} : {ok:false,text:'Setup ยังต้องพัฒนา'},
+    state['entry-conditions']==='clear'? {ok:true,text:'Entry Conditions ครบ'} : {ok:false,text:'Entry Conditions ยังไม่ครบ'},
+    state['backtest-yn']==='stats'     ? {ok:true,text:'Backtest จนรู้สถิติ'} : {ok:false,text:'ยังไม่ได้ Backtest'}
+  ]);
+  renderMod('sl', slS, [
+    state['sl-clarity']==='clear' ? {ok:true,text:'ตำแหน่ง SL มีกฎชัดเจน'} : {ok:false,text:'ตำแหน่ง SL ยังไม่ชัด'},
+    state['sl-move']==='never'||state['sl-move']==='rule' ? {ok:true,text:'การย้าย SL มีกฎรองรับ'} : state['sl-move'] ? {ok:false,text:'ย้าย SL ตามอารมณ์'} : null,
+    state['sl-near']==='hold' ? {ok:true,text:'ถือต่อเมื่อ SL ใกล้'} : state['sl-near'] ? {ok:false,text:'ปิดก่อนเมื่อ SL ใกล้'} : null
+  ].filter(Boolean));
+  renderMod('tp', tpS, [
+    state['rr-source']==='data' ? {ok:true,text:'กลยุทธ์ออก trade ชัดเจน'} : state['rr-source']==='general' ? {ok:false,text:'ยังปรับกฎระหว่าง trade'} : state['rr-source'] ? {ok:false,text:'ออก trade ตามความรู้สึก'} : null,
+    state['tp-behavior']==='wait' ? {ok:true,text:'รอแตะ TP ทุกครั้ง'} : state['tp-behavior'] ? {ok:false,text:'ออกก่อนกฎจะทำงาน'} : null
+  ].filter(Boolean));
+  renderMod('mgmt', mS, [
+    state['mgmt-yn']==='yes' ? {ok:true,text:'มีกฎ Management ชัดเจน'} : state['mgmt-yn'] ? {ok:false,text:'ยังไม่มีกฎ Management'} : null,
+    state['watch']==='close' ? {ok:true,text:'สบายใจขณะถือออเดอร์'} : state['watch']==='check' ? {ok:false,text:'กังวลบ้างระหว่างถือออเดอร์'} : state['watch']==='stare' ? {ok:false,text:'ไม่สบายใจขณะถือออเดอร์'} : null,
+    state['journal']==='always' ? {ok:true,text:'บันทึก trade ทุกครั้ง'} : state['journal'] ? {ok:false,text:'บันทึก trade ไม่สม่ำเสมอ'} : null
+  ].filter(Boolean));
+
+  // Build actions
+  const actions = [];
+  if (state['setup-clarity']==='unclear')
+    actions.push({p:'สำคัญมาก',bc:'rgba(248,113,113,0.12)',bd:'rgba(248,113,113,0.3)',tc:'#f87171',text:'<strong>ลองเขียน Setup ออกมาใน 1–2 ประโยคที่คนอื่นอ่านแล้วเข้าใจทันที</strong> ถ้าทำไม่ได้ แสดงว่า Setup ยังไม่ชัดพอที่จะ backtest หรือวัดผลได้จริงครับ'});
+  if (state['setup-clarity']==='partial')
+    actions.push({p:'ควรแก้',bc:'rgba(240,180,41,0.1)',bd:'rgba(240,180,41,0.3)',tc:'#f0b429',text:'<strong>การตัดสินใจหน้างานทำให้ Setup ทำซ้ำได้ยาก</strong> ลองพัฒนาจุดที่ยังไม่แน่ใจให้ชัดเจนขึ้นครับ'});
+  if (state['entry-conditions']==='none')
+    actions.push({p:'สำคัญมาก',bc:'rgba(248,113,113,0.12)',bd:'rgba(248,113,113,0.3)',tc:'#f87171',text:'<strong>เขียน Conditions ออกมาทุกข้อ</strong> แล้วถามตัวเองว่าถ้าขาดข้อไหน คุณยังเข้า trade ได้ไหม ถ้าใช่ ข้อนั้นยังไม่ใช่เงื่อนไขจริงครับ'});
+  if (state['entry-conditions']==='partial')
+    actions.push({p:'ควรแก้',bc:'rgba(240,180,41,0.1)',bd:'rgba(240,180,41,0.3)',tc:'#f0b429',text:'<strong>ระบบของคุณอาจชัดเจนแล้ว แต่ยังอดทนรอให้เงื่อนไขครบก่อนไม่ได้</strong> ทำให้ผลลัพธ์ไม่มีประสิทธิภาพเท่าที่ควร ลองเพิ่มความอดทนในการรออีกนิดครับ'});
+  if (state['backtest-yn']==='unsure')
+    actions.push({p:'ควรแก้',bc:'rgba(240,180,41,0.1)',bd:'rgba(240,180,41,0.3)',tc:'#f0b429',text:'<strong>อาจเกิดจากระบบที่ซับซ้อนเกินไปจนทำซ้ำได้ยาก</strong> ลองทำให้ระบบเรียบง่ายขึ้นแล้วค่อยทดสอบใหม่ครับ จำไว้ว่าถ้าอยากวัดผลลัพธ์ได้ input ต้องทำซ้ำได้ก่อน'});
+  if (state['backtest-yn']==='no')
+    actions.push({p:'สำคัญมาก',bc:'rgba(248,113,113,0.12)',bd:'rgba(248,113,113,0.3)',tc:'#f87171',text:'<strong>เริ่มแคปภาพก่อนและหลังทุก trade</strong> โดยไม่ต้องรอให้ระบบสมบูรณ์ แล้วดูว่า trade ที่ชนะมีอะไรเหมือนกัน และ trade ที่แพ้มีอะไรซ้ำกัน นำสิ่งที่ได้ไปพัฒนา Setup ต่อครับ'});
+  if (state['sl-clarity']==='feel' || state['sl-clarity']==='partial')
+    actions.push({p:'ควรแก้',bc:'rgba(240,180,41,0.1)',bd:'rgba(240,180,41,0.3)',tc:'#f0b429',text:'<strong>บันทึกทุก trade แล้วดูว่า trade ที่ชนะวาง SL ที่ไหน มีหลักการอะไรที่ซ้ำกัน</strong> ข้อมูลนั้นจะช่วยให้คุณหาจุดวาง SL ที่มีหลักการมากขึ้นได้ครับ'});
+  if (state['sl-move']==='feel')
+    actions.push({p:'ควรแก้',bc:'rgba(240,180,41,0.1)',bd:'rgba(240,180,41,0.3)',tc:'#f0b429',text:'<strong>ถ้าจะย้าย SL ได้ กฎต้องถูกเขียนไว้ก่อนเปิด trade เสมอ</strong> มันจะช่วยป้องกันไม่ให้ความกลัว ความกังวล หรือความโลภเข้ามาตัดสินใจแทนคุณได้ครับ'});
+  if (state['sl-near']==='close')
+    actions.push({p:'ควรแก้',bc:'rgba(240,180,41,0.1)',bd:'rgba(240,180,41,0.3)',tc:'#f0b429',text:'<strong>มักเกิดจากความไม่มั่นใจในระบบ</strong> ลองดูกราฟให้น้อยลง และเชื่อมั่นในแผนที่วางไว้โดยไม่มีข้อแม้ดูนะครับ'});
+  if (state['sl-near']==='depends')
+    actions.push({p:'สำคัญมาก',bc:'rgba(248,113,113,0.12)',bd:'rgba(248,113,113,0.3)',tc:'#f87171',text:'<strong>การเลื่อน SL ออกไปมีโอกาสทำให้พอร์ตเสียหายหนักได้</strong> mindset ที่สำคัญ คือ SL มีไว้เพื่อปกป้องคุณ การโดน SL ไม่ใช่การแพ้ แต่การเลื่อนมันออกไปนั่นแหละที่จะทำให้คุณแพ้อย่างแน่นอนครับ'});
+  if (state['rr-source']==='general')
+    actions.push({p:'ควรแก้',bc:'rgba(240,180,41,0.1)',bd:'rgba(240,180,41,0.3)',tc:'#f0b429',text:'<strong>กฎที่ปรับระหว่าง trade มักมาจากความกลัว ความโลภ หรือความไม่มั่นใจในขณะนั้น</strong> ลองทดสอบ 30–50 trade แล้วดูว่าราคามักไปถึงเป้าเท่าไหร่ ข้อมูลนั้นจะช่วยให้คุณสร้างกฎ TP ที่ชัดเจนได้ครับ'});
+  if (state['rr-source']==='feel')
+    actions.push({p:'สำคัญมาก',bc:'rgba(248,113,113,0.12)',bd:'rgba(248,113,113,0.3)',tc:'#f87171',text:'<strong>การออก trade ตามความรู้สึกทำให้วัดผลและพัฒนาไม่ได้</strong> ลองกำหนดกฎออก trade ให้ชัดเจนก่อนเปิดออเดอร์ แล้วทดสอบดูว่าให้ผลลัพธ์ดีขึ้นไหมครับ'});
+  if (state['tp-behavior']==='early')
+    actions.push({p:'ควรแก้',bc:'rgba(240,180,41,0.1)',bd:'rgba(240,180,41,0.3)',tc:'#f0b429',text:'<strong>การปิดก่อนกฎทำให้ Expected Value ลดลงทุกครั้ง และผลลัพธ์จะเป็นแบบสุ่ม เชื่อถือได้ยาก</strong> ลองย้อนดูว่าถ้าถือต่อจนถึงกฎจริง ผลลัพธ์จะเป็นยังไง แนะนำให้เชื่อข้อมูลมากกว่าอารมณ์ครับ'});
+  if (state['tp-behavior']==='extend')
+    actions.push({p:'ควรแก้',bc:'rgba(240,180,41,0.1)',bd:'rgba(240,180,41,0.3)',tc:'#f0b429',text:'<strong>การขยับเป้าโดยไม่มีกฎรองรับคือการกระทำจากความโลภที่ไม่มีข้อมูลรองรับ</strong> และในระยะยาวมันทำลาย consistency ของระบบ TP ควรถูกกำหนดไว้ก่อนเปิด trade เสมอครับ'});
+  if (state['mgmt-yn']==='no')
+    actions.push({p:'ควรแก้',bc:'rgba(240,180,41,0.1)',bd:'rgba(240,180,41,0.3)',tc:'#f0b429',text:'<strong>เริ่มจากกฎง่ายที่สุดก่อน</strong> — ตั้ง SL และ TP แล้วไม่แตะจนกว่าจะโดน แค่นั้นก็มีระบบ Management แล้ว ทดสอบแบบนี้ก่อนว่าได้ผลไหม ก่อนจะเพิ่มความซับซ้อนอื่นครับ'});
+  if (state['watch']==='check')
+    actions.push({p:'ควรทำ',bc:'var(--pdim)',bd:'var(--pborder)',tc:'var(--purple)',text:'<strong>ความอยากเช็คกราฟบ่อยอาจเกิดจากความกังวลหรือไม่เชื่อมั่นในระบบ</strong> ลองถามตัวเองว่ามันเกิดจากอารมณ์ไหม ถ้าใช่ — ปิดจอแล้วไปทำอย่างอื่นครับ ถ้าไม่ใช่ — ลองหาว่าจุดไหนที่ยังไม่ชัด แล้วเขียนกฎให้ครอบคลุมตรงนั้นครับ'});
+  if (state['watch']==='stare')
+    actions.push({p:'ควรแก้',bc:'rgba(240,180,41,0.1)',bd:'rgba(240,180,41,0.3)',tc:'#f0b429',text:'<strong>ความไม่สบายใจขณะถือออเดอร์มักมาจากกฎที่ยังไม่ชัดพอ</strong> ยิ่งนั่งดูกราฟมากเท่าไหร่ ยิ่งเปิดโอกาสให้อารมณ์เข้ามาแทรก ลองกลับไปทบทวนว่า SL, TP และ Management ชัดเจนพอที่จะปล่อยให้ระบบทำงานเองได้ไหมครับ'});
+  if (state['journal']==='sometimes')
+    actions.push({p:'ควรทำ',bc:'var(--pdim)',bd:'var(--pborder)',tc:'var(--purple)',text:'<strong>การบันทึกแบบทำบ้างไม่ทำบ้าง มักทำให้คุณข้ามการจดบันทึก trade ที่แพ้</strong> แต่ trade เหล่านั้นแหละที่ให้ข้อมูลมีค่ามากที่สุด ลองบันทึกทุก trade อย่างน้อยแค่แคปภาพก็พอครับ'});
+  if (state['journal']==='never')
+    actions.push({p:'ควรทำ',bc:'var(--pdim)',bd:'var(--pborder)',tc:'var(--purple)',text:'<strong>แคปภาพ chart ก่อนและหลังทุก trade</strong> แล้วดูว่า trade ที่ชนะมีอะไรเหมือนกัน และ trade ที่แพ้มีอะไรซ้ำกัน ข้อมูลนั้นคือจุดเริ่มต้นของการพัฒนาระบบครับ'});
+  if (state['readiness']==='partial')
+    actions.push({p:'ควรทำ',bc:'var(--pdim)',bd:'var(--pborder)',tc:'var(--purple)',text:'<strong>ยังมีจุดที่ต้องตัดสินใจระหว่าง trade อยู่</strong> ลองระบุให้ได้ว่าจุดนั้นคืออะไร แล้วเขียนกฎให้ครอบคลุมตรงนั้นก่อนครับ'});
+  if (state['readiness']==='unclear')
+    actions.push({p:'สำคัญมาก',bc:'rgba(248,113,113,0.12)',bd:'rgba(248,113,113,0.3)',tc:'#f87171',text:'<strong>ถ้าส่วนใหญ่ยังตัดสินใจตามสถานการณ์</strong> แนะนำให้กลับไปเริ่มที่ Entry — เขียน Setup และ Conditions ให้ชัดก่อน แล้วค่อยๆ เพิ่ม SL, TP, Management ทีละส่วนจนครบครับ'});
+
+  const order = { 'สำคัญมาก':0,'ควรแก้':1,'ควรทำ':2 };
+  actions.sort((a,b) => order[a.p]-order[b.p]);
+
+  const primary = actions.slice(0,3);
+  const extra   = actions.slice(3);
+
+  const rowHTML = a => `<div class="action-row"><div class="action-tag" style="background:${a.bc};border:1px solid ${a.bd};color:${a.tc};">${a.p}</div><div class="action-body">${a.text}</div></div>`;
+
+  let html = '';
+  if (actions.length === 0) {
+    html = `<div class="action-row"><div class="action-body" style="color:#4ade80;">✓ ระบบของคุณชัดเจนในทุกด้านแล้วครับ สิ่งต่อไปคือทำตามระบบให้สม่ำเสมอ</div></div>`;
+  } else {
+    html = primary.map(rowHTML).join('');
+    if (extra.length > 0) {
+      html += `<div class="extra-actions" id="extra-actions">${extra.map(rowHTML).join('')}</div>`;
+      html += `<button class="show-more-btn" id="show-more-btn" onclick="toggleExtra()">
+        <span id="show-more-label">ดูเพิ่มเติม (${extra.length} รายการ)</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>`;
+    }
+  }
+  document.getElementById('action-list').innerHTML = html;
+
+  document.getElementById('assessment').classList.remove('active');
+  document.getElementById('dashboard').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+
+function barCol(s){ return s>=80?'#4ade80':s>=55?'#f0b429':'#f87171'; }
+
+function populateExportCard(overall, eS, slS, tpS, mS, tier, actions) {
+  const col = s => s>=80?'#4ade80':s>=55?'#f0b429':'#f87171';
+
+  // score
+  const numEl = document.getElementById('ec-num');
+  numEl.textContent = overall;
+  numEl.style.color = col(overall);
+
+  // tier
+  const tierEl = document.getElementById('ec-tier');
+  tierEl.textContent = tier.label + ' — ' + tier.en;
+  tierEl.style.background = tier.bg;
+  tierEl.style.border = '1px solid ' + tier.bd;
+  tierEl.style.color = tier.color;
+
+  // modules
+  const mods = [
+    {n:'Entry',s:eS},{n:'Stop Loss',s:slS},{n:'Take Profit',s:tpS},{n:'Management',s:mS}
+  ];
+  document.getElementById('ec-mods').innerHTML = mods.map(m=>`
+    <div class="ec-mod">
+      <div class="ec-mod-n">${m.n}</div>
+      <div class="ec-mod-p" style="color:${col(m.s)}">${m.s}%</div>
+    </div>
+  `).join('');
+
+  // improvements
+  const ecGroups = [
+    { key:'สำคัญมาก', bc:'rgba(248,113,113,0.12)', bd:'rgba(248,113,113,0.3)', tc:'#f87171', dot:'#f87171' },
+    { key:'ควรแก้',   bc:'rgba(240,180,41,0.1)',   bd:'rgba(240,180,41,0.3)',  tc:'#f0b429', dot:'#f0b429' },
+    { key:'ควรทำ',   bc:'rgba(173,122,248,0.12)',  bd:'rgba(173,122,248,0.28)',tc:'#AD7AF8', dot:'#AD7AF8' }
+  ];
+  let ecImpHTML = '';
+  if (actions.length === 0) {
+    ecImpHTML = `<div class="ec-imp-row"><div class="ec-imp-text" style="color:#4ade80;">✓ ระบบของคุณชัดเจนในทุกด้านแล้วครับ</div></div>`;
+  } else {
+    ecGroups.forEach(g => {
+      const ga = actions.filter(a => a.p === g.key);
+      if (ga.length === 0) return;
+      ecImpHTML += `<div style="margin-bottom:8px;">
+        <div style="margin-bottom:5px;">
+          <span style="font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:0.5px;text-transform:uppercase;padding:2px 8px;border-radius:3px;background:${g.bc};border:1px solid ${g.bd};color:${g.tc};">${g.key}</span>
+        </div>
+        <div style="background:#161616;border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:7px;">
+          ${ga.map((a,i) => `
+            <div style="display:flex;gap:8px;align-items:flex-start;">
+              <span style="width:4px;height:4px;border-radius:50%;background:${g.dot};flex-shrink:0;margin-top:5px;"></span>
+              <div class="ec-imp-text">${a.text}</div>
+            </div>
+            ${i < ga.length-1 ? '<div style="height:1px;background:rgba(255,255,255,0.04);"></div>' : ''}
+          `).join('')}
+        </div>
+      </div>`;
+    });
+  }
+  document.getElementById('ec-imp-list').innerHTML = ecImpHTML;
+}
+
+function wrapText(ctx, text, x, y, maxW, lineH) {
+  // strip HTML tags
+  const plain = text.replace(/<[^>]+>/g,'');
+  const words = plain.split(' ');
+  let line = '';
+  let cy = y;
+  for (let w of words) {
+    const test = line + w + ' ';
+    if (ctx.measureText(test).width > maxW && line) {
+      ctx.fillText(line.trim(), x, cy);
+      cy += lineH; line = w + ' ';
+    } else { line = test; }
+  }
+  if (line.trim()) ctx.fillText(line.trim(), x, cy);
+  return cy;
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r);
+  ctx.closePath();
+}
+
+function roundRectFill(ctx, x, y, w, h, r, color) {
+  ctx.fillStyle = color;
+  roundRect(ctx, x, y, w, h, r);
+  ctx.fill();
+}
+
+function drawCard(overall, eS, slS, tpS, mS, tier, actions) {
+  const W = 800, pad = 48;
+  const lineH = 20;
+
+  // Pre-measure improvement items to get accurate height
+  const tmpCv = document.createElement('canvas');
+  const tmpCtx = tmpCv.getContext('2d');
+  tmpCtx.font = '400 15px Sarabun, sans-serif';
+  const impW = W - pad*2 - 90;
+
+  function measureLines(text, maxW) {
+    const plain = text.replace(/<[^>]+>/g,'');
+    const words = plain.split(' ');
+    let line='', lines=1;
+    for(let w of words){
+      const test=line+w+' ';
+      if(tmpCtx.measureText(test).width>maxW && line){lines++;line=w+' ';}
+      else line=test;
+    }
+    return lines;
+  }
+
+  let impH = 0;
+  for(const a of actions){
+    const lines = measureLines(a.text, impW);
+    impH += lines * lineH + 28 + 10; // padding + gap
+  }
+
+  const H = 58 + 20 + 220 + 60 + impH + 60;
+  const cv = document.createElement('canvas');
+  cv.width = W; cv.height = H;
+  const ctx = cv.getContext('2d');
+
+  // BG
+  ctx.fillStyle = '#0A0A0A';
+  ctx.fillRect(0,0,W,H);
+
+  // Glow top-right
+  const g1 = ctx.createRadialGradient(W*0.85, H*0.08, 0, W*0.85, H*0.08, 280);
+  g1.addColorStop(0,'rgba(173,122,248,0.08)'); g1.addColorStop(1,'rgba(173,122,248,0)');
+  ctx.fillStyle=g1; ctx.fillRect(0,0,W,H);
+
+  // Glow bottom-left
+  const g2 = ctx.createRadialGradient(W*0.1, H*0.92, 0, W*0.1, H*0.92, 180);
+  g2.addColorStop(0,'rgba(173,122,248,0.05)'); g2.addColorStop(1,'rgba(173,122,248,0)');
+  ctx.fillStyle=g2; ctx.fillRect(0,0,W,H);
+
+  let cy = 34;
+
+  // ── HEADER ──
+  ctx.fillStyle = '#AD7AF8';
+  ctx.font = '500 18px "DM Mono", monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('northh.fx', pad, cy);
+
+  ctx.fillStyle = '#333344';
+  ctx.font = '500 11px "DM Mono", monospace';
+  ctx.textAlign = 'right';
+  ctx.fillText('PRE-TRADE ASSESSMENT', W-pad, cy);
+  ctx.textAlign = 'left';
+
+  cy += 26;
+
+  // ── SCORE BLOCK ──
+  ctx.fillStyle = barCol(overall);
+  ctx.font = 'bold 96px Poppins, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(overall, W/2, cy + 96);
+
+  ctx.fillStyle = '#444';
+  ctx.font = '500 11px "DM Mono", monospace';
+  ctx.letterSpacing = '2px';
+  ctx.fillText('out of 100', W/2, cy + 120);
+  ctx.letterSpacing = '0px';
+
+  // Tier pill
+  const tierText = tier.label + ' — ' + tier.en;
+  ctx.font = 'bold 13px Poppins, sans-serif';
+  const tw = ctx.measureText(tierText).width + 40;
+  const tx = W/2 - tw/2, ty = cy + 136;
+  roundRectFill(ctx, tx, ty, tw, 30, 15, tier.bg);
+  ctx.strokeStyle = tier.bd; ctx.lineWidth = 1;
+  roundRect(ctx, tx, ty, tw, 30, 15); ctx.stroke();
+  ctx.fillStyle = tier.color;
+  ctx.fillText(tierText, W/2, ty + 20);
+  ctx.textAlign = 'left';
+
+  cy += 180;
+
+  // ── MODULE ROW ──
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad, cy); ctx.lineTo(W-pad, cy); ctx.stroke();
+  cy += 16;
+
+  const mods = [{n:'Entry',s:eS},{n:'Stop Loss',s:slS},{n:'Take Profit',s:tpS},{n:'Management',s:mS}];
+  const mw = (W - pad*2) / 4;
+  mods.forEach((m,i) => {
+    const mx = pad + i*mw + mw/2;
+    ctx.fillStyle = '#333344';
+    ctx.font = '500 10px "DM Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(m.n.toUpperCase(), mx, cy + 12);
+    ctx.fillStyle = barCol(m.s);
+    ctx.font = 'bold 18px Poppins, sans-serif';
+    ctx.fillText(m.s + '%', mx, cy + 34);
+  });
+  ctx.textAlign = 'left';
+  cy += 50;
+
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad, cy); ctx.lineTo(W-pad, cy); ctx.stroke();
+  cy += 20;
+
+  // ── IMPROVEMENT HEADER ──
+  ctx.fillStyle = '#AD7AF8';
+  ctx.font = '500 10px "DM Mono", monospace';
+  ctx.fillText('IMPROVEMENT', pad, cy);
+  cy += 14;
+
+  // ── IMPROVEMENT ITEMS ──
+  for(const a of actions) {
+    const plain = a.text.replace(/<[^>]+>/g,'');
+    const lines = measureLines(a.text, impW);
+    const itemH = lines * lineH + 28;
+
+    // card bg
+    roundRectFill(ctx, pad, cy, W-pad*2, itemH, 8, '#111111');
+
+    // badge
+    ctx.font = '500 10px "DM Mono", monospace';
+    const bw = ctx.measureText(a.p).width + 20;
+    roundRectFill(ctx, pad+12, cy+10, bw, 20, 4, a.bc);
+    ctx.strokeStyle = a.bd; ctx.lineWidth = 1;
+    roundRect(ctx, pad+12, cy+10, bw, 20, 4); ctx.stroke();
+    ctx.fillStyle = a.tc;
+    ctx.fillText(a.p, pad+12+10, cy+24);
+
+    // text — split into strong/normal portions
+    const boldMatch = a.text.match(/<strong[^>]*>(.*?)<\/strong>(.*)/s);
+    const tx2 = pad+12+bw+12;
+    const maxW2 = W-pad-tx2-pad/2;
+    ctx.font = '400 15px Sarabun, sans-serif';
+
+    if(boldMatch) {
+      const boldPart = boldMatch[1];
+      const restPart = boldMatch[2].trim();
+      const fullText = boldPart + ' ' + restPart;
+      // wrap all text, bold prefix highlighted
+      const words = fullText.split(' ');
+      let line='', lcy=cy+22, firstLine=true;
+      const boldWords = boldPart.split(' ').length;
+      let wordIdx=0;
+      for(let w of words){
+        const test=line+w+' ';
+        if(ctx.measureText(test).width>maxW2 && line){
+          ctx.fillStyle='#CCBFF0';
+          ctx.fillText(line.trim(), tx2, lcy);
+          lcy+=lineH; line=w+' '; firstLine=false;
+        } else line=test;
+        wordIdx++;
+      }
+      if(line.trim()) { ctx.fillStyle='#CCBFF0'; ctx.fillText(line.trim(), tx2, lcy); }
+    } else {
+      let words2=plain.split(' '), line2='', lcy2=cy+22;
+      for(let w of words2){
+        const test=line2+w+' ';
+        if(ctx.measureText(test).width>maxW2 && line2){ctx.fillStyle='#888888';ctx.fillText(line2.trim(),tx2,lcy2);lcy2+=lineH;line2=w+' ';}
+        else line2=test;
+      }
+      if(line2.trim()){ctx.fillStyle='#888888';ctx.fillText(line2.trim(),tx2,lcy2);}
+    }
+
+    cy += itemH + 6;
+  }
+
+  cy += 8;
+
+  // ── FOOTER ──
+  ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad, cy); ctx.lineTo(W-pad, cy); ctx.stroke();
+  cy += 18;
+
+  const mantras = ['Simple','Clear','Repeatable'];
+  ctx.font = '500 11px "DM Mono", monospace';
+  let totalW = 0;
+  mantras.forEach(m => { totalW += ctx.measureText(m).width + 22; });
+  let mx2 = W/2 - totalW/2 + 8;
+  mantras.forEach((m,i) => {
+    ctx.beginPath(); ctx.arc(mx2-8, cy+4, 2.5, 0, Math.PI*2);
+    ctx.fillStyle='#2A2A3C'; ctx.fill();
+    ctx.fillStyle='#2A2A3C';
+    ctx.textAlign='left';
+    ctx.fillText(m, mx2, cy+8);
+    mx2 += ctx.measureText(m).width + 22;
+  });
+
+  return cv;
+}
+
+function saveImage(sectionId, filename, btn) {
+  const origText = btn.innerHTML;
+  btn.classList.add('loading');
+  btn.textContent = 'กำลังสร้างภาพ...';
+
+  // Gather scores & actions
+  const eS  = parseInt(document.getElementById('mod-entry-pct')?.textContent)||0;
+  const slS = parseInt(document.getElementById('mod-sl-pct')?.textContent)||0;
+  const tpS = parseInt(document.getElementById('mod-tp-pct')?.textContent)||0;
+  const mS  = parseInt(document.getElementById('mod-mgmt-pct')?.textContent)||0;
+  const overall = Math.round((eS+slS+tpS+mS)/4);
+  const tier = getTier(overall);
+
+  const actionRows = document.querySelectorAll('#action-list .action-row, #extra-actions .action-row');
+  const actions = [];
+  actionRows.forEach(row => {
+    const tag  = row.querySelector('.action-tag');
+    const body = row.querySelector('.action-body');
+    if(!tag||!body) return;
+    actions.push({
+      p:  tag.textContent.trim(),
+      tc: tag.style.color,
+      bc: tag.style.background,
+      bd: tag.style.borderColor||'transparent',
+      text: body.innerHTML
+    });
+  });
+
+  // Populate export card
+  populateExportCard(overall, eS, slS, tpS, mS, tier, actions);
+
+  const el = document.getElementById('export-card');
+  el.style.left = '-9999px';
+
+  // Wait for fonts/render
+  setTimeout(() => {
+    html2canvas(el, {
+      backgroundColor: '#0A0A0A',
+      scale: 2.5,
+      useCORS: true,
+      allowTaint: true,
+      logging: false,
+      width: 480,
+      windowWidth: 480
+    }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      if (isIOS) {
+        const win = window.open('');
+        if (win) {
+          win.document.write(`<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Save Image</title><style>body{margin:0;background:#000;display:flex;flex-direction:column;align-items:center;padding:20px;}img{max-width:100%;border-radius:12px;}p{color:#888;font-size:14px;margin-top:16px;text-align:center;line-height:1.6;}</style></head><body><img src="${imgData}"><p>กดค้างที่รูป แล้วเลือก<br><strong style="color:#fff;">Save to Photos</strong></p></body></html>`);
+          win.document.close();
+        }
+      } else {
+        try {
+          const link = document.createElement('a');
+          link.download = 'Clarity-Score-by-northhfx.png';
+          link.href = imgData;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } catch(e) {
+          const win = window.open('');
+          const img = new Image();
+          img.src = imgData;
+          img.style.cssText = 'max-width:100%;display:block;';
+          win.document.body.style.cssText = 'background:#0A0A0A;margin:0;padding:0;';
+          win.document.body.appendChild(img);
+        }
+      }
+      btn.classList.remove('loading');
+      btn.innerHTML = '✓ บันทึกแล้ว';
+      setTimeout(() => { btn.innerHTML = origText; }, 2500);
+    }).catch(err => {
+      console.error(err);
+      btn.classList.remove('loading');
+      btn.innerHTML = origText;
+    });
+  }, 600);
+}
+
+function toggleExtra() {
+  const el  = document.getElementById('extra-actions');
+  const btn = document.getElementById('show-more-btn');
+  const lbl = document.getElementById('show-more-label');
+  if (!el) return;
+  const isOpen = el.classList.contains('open');
+  el.classList.toggle('open');
+  btn.classList.toggle('open');
+  lbl.textContent = isOpen
+    ? `ดูเพิ่มเติม (${el.children.length} รายการ)`
+    : 'ซ่อน';
+}
+</script>
+
+
+<!-- HIDDEN EXPORT CARD -->
+<div id="export-card">
+  <div class="ec">
+    <div class="ec-glow1"></div>
+    <div class="ec-glow2"></div>
+    <div class="ec-hdr">
+      <div class="ec-brand"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#AD7AF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        northh.fx</div>
+      <div class="ec-tag">Pre-Trade Assessment</div>
+    </div>
+    <div class="ec-score">
+      <div class="ec-eyebrow">System Clarity Score</div>
+      <div class="ec-num" id="ec-num">—</div>
+      <div class="ec-denom">out of 100</div>
+      <div class="ec-tier" id="ec-tier"></div>
+    </div>
+    <div class="ec-mods" id="ec-mods"></div>
+    <div class="ec-imp-hdr">Improvement</div>
+    <div class="ec-imp-list" id="ec-imp-list"></div>
+    <div class="ec-footer">
+      <div class="ec-mantra-word">Simple</div>
+      <div class="ec-mantra-word">Clear</div>
+      <div class="ec-mantra-word">Repeatable</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- DESIGN D EXPORT CARD -->
+<div id="export-card">
+  <div class="ec">
+    <div class="ec-glow1"></div>
+    <div class="ec-glow2"></div>
+    <div class="ec-hdr">
+      <div class="ec-brand"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#AD7AF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        northh.fx</div>
+      <div class="ec-tag">Pre-Trade Assessment</div>
+    </div>
+    <div class="ec-score-block">
+      <div class="ec-eyebrow">System Clarity Score</div>
+      <div class="ec-score-num" id="ec-score">—</div>
+      <div class="ec-out-of">out of 100</div>
+      <div class="ec-tier" id="ec-tier">—</div>
+    </div>
+    <div class="ec-divider"></div>
+    <div class="ec-mods" id="ec-mods"></div>
+    <div class="ec-divider"></div>
+    <div class="ec-imp-hdr">Improvement</div>
+    <div class="ec-imp-list" id="ec-imp-list"></div>
+    <div class="ec-footer">
+      <div class="ec-mantra-item">Simple</div>
+      <div class="ec-mantra-item">Clear</div>
+      <div class="ec-mantra-item">Repeatable</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
