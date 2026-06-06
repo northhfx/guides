@@ -1793,7 +1793,7 @@ body {
   <div class="q-block">
     <div class="q-text">คุณมี Rule สำหรับ Trade Management ที่เขียนไว้ชัดเจนแล้วไหม?</div>
     <div class="q-hint">Trailing stop, partial close, break-even — ถ้ามีต้องเป็นกฎ ไม่ใช่ความรู้สึก</div>
-    <div class="yn-tiles">
+    <div class="yn-tiles" id="mgmt-yn-tiles">
       <div class="yn-tile yes" onclick="pickYN(this,'mgmt-yn','yes')">✓ มีกฎชัดเจน</div>
       <div class="yn-tile no"  onclick="pickYN(this,'mgmt-yn','no')">✕ ยังไม่มี</div>
     </div>
@@ -2081,13 +2081,13 @@ function validateAndSubmit() {
   const keyToBlockMap = {
     'setup-clarity':    'g-setup-clarity',
     'entry-conditions': 'g-entry-conditions',
-    'backtest-yn':      'backtest-yn',
+    'backtest-yn':      'g-backtest-yn',
     'sl-clarity':       'g-sl-clarity',
     'sl-move':          'g-sl-move',
     'sl-near':          'g-sl-near',
     'rr-source':        'g-rr-source',
     'tp-behavior':      'g-tp-behavior',
-    'mgmt-yn':          'mgmt-yn',
+    'mgmt-yn':          'mgmt-yn-tiles',
     'watch':            'g-watch',
     'journal':          'g-journal',
     'readiness':        'g-readiness'
